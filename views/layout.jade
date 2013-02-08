@@ -1,0 +1,31 @@
+!!! 5
+html
+  head
+    title Bootstrap 101 Template
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
+    link(href='/css/style.css', rel='stylesheet', media='screen')
+    script(src='http://code.jquery.com/jquery.js')
+    script(src='/js/bootstrap.min.js')
+  body
+    .container
+      .row
+        .span12
+          .blogheader
+            h1 #{title}
+            h2 #{subtitle}
+      .row
+        .span12
+          .navbar
+            .navbar-inner
+              ul.nav
+                each navitem in locals.navItems
+                  li(class=(navitem.key===navkey) ? 'active':'foo')
+                    a(href=navitem.link) #{navitem.name}
+              form.navbar-search.pull-right
+                input.search-query(type='text',placeholder='Search')
+      .row
+        .span8
+          block content
+        .span4
+          block rightnav
