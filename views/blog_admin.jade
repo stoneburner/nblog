@@ -1,0 +1,34 @@
+extends layout
+
+block append head
+  script(src='/js/wysihtml5-0.3.0.min.js')
+  script(src='/js/bootstrap-wysihtml5-0.0.2.min.js')
+  link(href='/css/bootstrap-wysihtml5-0.0.2.css', rel='stylesheet', media='screen')
+
+  script
+    $(document).ready(function() {
+      $('.textarea').wysihtml5();
+    });
+
+block hnav
+  li
+    a(href='#') Home
+  li
+    a(href='#') Home
+
+block content
+    form
+      textarea.textarea(placeholder='Enter your text ...', autofocus='autofocus',style="width: 610px; height: 200px")
+    form
+      fielset
+        label(for='inputTitle') Title
+        input(id='inputTitle',type="text",name="title",placeholder="Enter Title...")
+
+
+    a.btn.btn-primary save
+
+block rightnav
+  ul.nav.nav-list
+    li.nav-header Admin Functions
+    li
+      a(href='#') Foo

@@ -7,8 +7,23 @@ block hnav
     a(href='#') Home
 
 block content
-  h1 title
-  p Welcome to title
+  each post in blogposts
+    .blogpost
+      h1 #{post.title}
+      .blogcontent !{post.html}
+      .blogmeta
+        | published by
+        | #{post.user}
+        | &nbsp;
+        i.icon-calendar
+        | &nbsp; #{post.publish_time}
+      .tags
+        | tags &nbsp;
+        each tag in post.tags
+          a.label(href='/blog/tag/'+tag)
+            i.icon-tag
+            | &nbsp; #{tag}
+          | &nbsp;
 
 block rightnav
   ul.nav.nav-list

@@ -22,7 +22,7 @@ var navdata = {};
   navdata.subtitle="...interesting stuff (probably)",
 
   navdata.navItems= [
-    {key:'home',name:'Home',link:'/'},
+    {key:'home',name:'All Posts',link:'/'},
     {key:'electronics',name:'Electronics',link:'/blog/cat/electronics'},
     {key:'reprap',name:'3d Printer',link:'/blog/cat/reprap'},
     {key:'misc',name:'Various',link:'/blog/cat/misc'},
@@ -47,15 +47,22 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', [setNavData], routes.index);
+app.get('/', [setNavData], blog.main_blog);
 app.get('/blog/cat/:category', [setNavData] ,blog.show_category);
+app.get('/blog', [setNavData] ,blog.main_blog);
+app.get('/admin/create_post',[setNavData], blog_admin.new_post);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
+function makeNavData() {
+
+}
+
 function setNavData(req,res,next) {
   req.db=db;
+  req.mongo=mongo;
   req.navdata= _.clone(navdata);
   next();
 }
