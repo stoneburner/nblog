@@ -3,11 +3,17 @@ extends layout
 block append head
   script(src='/js/wysihtml5-0.3.0.min.js')
   script(src='/js/bootstrap-wysihtml5-0.0.2.min.js')
+  script(src='/js/admin.js')
   link(href='/css/bootstrap-wysihtml5-0.0.2.css', rel='stylesheet', media='screen')
 
   script
     $(document).ready(function() {
-      $('.textarea').wysihtml5();
+      var editor=$('.textarea').wysihtml5({
+        stylesheets: ["/css/wysiwyg-color.css"]
+      });
+      $('.save_new_post').on('click',function() {
+        saveNewPost();
+      });
     });
 
 block hnav
@@ -19,13 +25,17 @@ block hnav
 block content
     form
       textarea.textarea(placeholder='Enter your text ...', autofocus='autofocus',style="width: 610px; height: 200px")
-    form
+    form.new_post
       fielset
+        label(for='inputCategory') Category
+        select(id='inputCategory',name='categories')
+          each category in locals.categories
+            option #{category}
         label(for='inputTitle') Title
         input(id='inputTitle',type="text",name="title",placeholder="Enter Title...")
-
-
-    a.btn.btn-primary save
+        label(for='inputTags') Tags (comma seperated)
+        input(id='inputTags',type="text",name="tags",placeholder="Enter Tags...")
+    a.btn.btn-primary.save_new_post save
 
 block rightnav
   ul.nav.nav-list

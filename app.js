@@ -28,6 +28,8 @@ var navdata = {};
     {key:'misc',name:'Various',link:'/blog/cat/misc'},
   ];
 
+  navdata.categories= ['electronics','reprap','misc'];
+
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
@@ -51,6 +53,7 @@ app.get('/', [setNavData], blog.main_blog);
 app.get('/blog/cat/:category', [setNavData] ,blog.show_category);
 app.get('/blog', [setNavData] ,blog.main_blog);
 app.get('/admin/create_post',[setNavData], blog_admin.new_post);
+app.post('/admin/save_post',[setNavData],blog_admin.save_post);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

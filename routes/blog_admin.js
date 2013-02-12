@@ -16,3 +16,22 @@ exports.new_post = function(req, res){
   console.log(navdata);
   res.render('blog_admin',navdata);
 };
+
+exports.save_post = function(req,res) {
+  var blogpost=req.body;
+
+  if (!blogpost.id) {
+    blogpost.user="admin";
+    blogpost.publish_time=new Date();
+    blogpost.tags=blogpost.tags.split(",");
+  }
+
+  console.log(blogpost);
+
+  req.db.collection('blogposts').save(blogpost,{strict:true},function(err){
+    if (err) {
+      console.log(err);
+    }
+    res.send({success:true});
+  });
+};
