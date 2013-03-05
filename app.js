@@ -10,7 +10,7 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , _ = require('underscore')
-  ,mongo = require('mongoskin')
+  , mongo = require('mongoskin')
   ;
 
 var app = express();
@@ -52,8 +52,11 @@ app.configure('development', function(){
 app.get('/', [setNavData], blog.main_blog);
 app.get('/blog/cat/:category', [setNavData] ,blog.show_category);
 app.get('/blog', [setNavData] ,blog.main_blog);
-app.get('/admin/create_post',[setNavData], blog_admin.new_post);
-app.post('/admin/save_post',[setNavData],blog_admin.save_post);
+app.get('/files/:filename',[setNavData],blog.showfile);
+app.get('/admin/create_post',[setNavData,restrictToAdmin], blog_admin.new_post);
+app.post('/admin/save_post',[setNavData,restrictToAdmin],blog_admin.save_post);
+app.get('/admin/upload',[setNavData,restrictToAdmin],blog_admin.upload);
+app.post('/admin/doupload',[setNavData,restrictToAdmin],blog_admin.doupload);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

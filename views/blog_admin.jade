@@ -40,5 +40,6 @@ block content
 block rightnav
   ul.nav.nav-list
     li.nav-header Admin Functions
-    li
-      a(href='#') Foo
+    each navitem in admin_nav
+      li
+        a(href='#{navitem.link}') #{navitem.name}

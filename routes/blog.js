@@ -33,3 +33,13 @@ exports.show_category = function(req, res){
     }
   });
 };
+
+exports.showfile = function(req,res) {
+  req.db.gridfs().open(req.params.filename,'r',function(err,gs) {
+    if (err) {
+      res.send(404);
+    } else {
+      gs.pipe(res);
+    }
+  });
+};
