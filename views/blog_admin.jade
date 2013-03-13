@@ -23,6 +23,23 @@ block hnav
     a(href='#') Home
 
 block content
+
+  if locals.blogposts
+    table.table.table-striped.bloglist
+      tr
+        th Title
+        th Category
+        th Tags
+        th Action
+      each post in blogposts
+        tr
+          td #{post.title}
+          td #{post.category}
+          td #{post.tags}
+          td
+            a.btn.btn-mini(href='editpost?id=#{post._id}') Edit
+            a.btn.btn-mini.btn-danger(href='deletepost?id=#{post._id}') Delete
+  else
     form
       textarea.textarea(placeholder='Enter your text ...', autofocus='autofocus',style="width: 610px; height: 200px")
     form.new_post

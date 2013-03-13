@@ -6,6 +6,7 @@
 var fs=require('fs');
 
 var admin_nav=[
+  {key:'list',name:'List Posts',link:'/admin/list_posts'},
   {key:'upload',name:'Upload Files',link:'/admin/upload'},
   {key:'create',name:'Create Blogpost',link:'/admin/create_post'},
 ];
@@ -14,7 +15,39 @@ exports.admin_index = function(req,res) {
   var navdata=req.navdata;
   navdata.admin_nav=admin_nav;
   navdata.navkey='home';
-  res.render('blog',navdata);
+  res.render('blog_admin',navdata);
+};
+
+exports.admin_list_posts = function(req,res) {
+  var navdata=req.navdata;
+  navdata.navkey='home';
+  navdata.admin_nav=admin_nav;
+  req.db.collection('blogposts').find().sort({id:-1}).limit(10).toArray(function (err, items) {
+    if (err) {
+      navdata.err=err;
+      res.render('error',navdata);
+    } else {
+      navdata.blogposts=items;
+      console.log(navdata);
+      res.render('blog_admin',navdata);
+    }
+  });
+};
+
+exports.admin_list_files = function(req,res) {
+  var navdata=req.navdata;
+  navdata.navkey='home';
+  navdata.admin_nav=admin_nav;
+  req.db.collection('blogposts').find().sort({id:-1}).limit(10).toArray(function (err, items) {
+    if (err) {
+      navdata.err=err;
+      res.render('error',navdata);
+    } else {
+      navdata.blogposts=items;
+      console.log(navdata);
+      res.render('blog_admin',navdata);
+    }
+  });
 };
 
 exports.new_post = function(req, res){

@@ -53,6 +53,8 @@ app.get('/', [setNavData], blog.main_blog);
 app.get('/blog/cat/:category', [setNavData] ,blog.show_category);
 app.get('/blog', [setNavData] ,blog.main_blog);
 app.get('/files/:filename',[setNavData],blog.showfile);
+app.get('/admin',[setNavData,restrictToAdmin],blog_admin.admin_index);
+app.get('/admin/list_posts',[setNavData,restrictToAdmin],blog_admin.admin_list_posts);
 app.get('/admin/create_post',[setNavData,restrictToAdmin], blog_admin.new_post);
 app.post('/admin/save_post',[setNavData,restrictToAdmin],blog_admin.save_post);
 app.get('/admin/upload',[setNavData,restrictToAdmin],blog_admin.upload);
