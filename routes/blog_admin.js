@@ -4,6 +4,7 @@
  */
 
 var fs=require('fs');
+var bcrypt=require('bcrypt');
 
 var admin_nav=[
   {key:'list',name:'List Posts',link:'/admin/list_posts'},
@@ -15,7 +16,57 @@ exports.admin_index = function(req,res) {
   var navdata=req.navdata;
   navdata.admin_nav=admin_nav;
   navdata.navkey='home';
-  res.render('blog_admin',navdata);
+  if (req.session.logged === true) {
+    res.render('blog_admin',navdata);
+  } else {
+    res.render('login',navdata);
+  }
+};
+
+exports.show_login = function(req,res) {
+  var navdata=req.navdata;
+  navdata.navkey='login';
+  res.render('login',navdata);
+};
+
+exports.admin_dologin=function(req,res) {
+  var username=req.body.username;
+  var password=req.body.password;
+  var rememberme=req.body.rememberme;
+  console.log(username,password,rememberme);
+
+  if (!username && !password) {
+    res.json({success:false,logged:false});
+  }
+
+  req.db.collection('users').findOne({email:username},function(err,item) {
+    if (!err && item && item.pwhash) {
+      bcrypt.compare(password,item.pwhash,function(err,result) {
+        if (!err && result===true) {
+          req.session.logged=true;
+          req.session.user=item;
+          if (item.admin && item.admin===true) {
+            req.session.admin=true;
+          }
+          res.json({success:true,logged:true});
+        } else {
+          res.json({success:false,logged:false});
+        }
+      });
+    } else {
+      res.json({success:false,logged:false});
+    }
+  });
+//  var salt=bcrypt.genSaltSync(10);
+//  var hash=bcrypt.hashSync(password,salt);
+//  console.log(username,password,rememberme,hash);
+};
+
+exports.admin_logout=function(req,res) {
+  if (req.session) {
+    req.session.destroy();
+  }
+  res.json({success:true});
 };
 
 exports.admin_list_posts = function(req,res) {

@@ -9,7 +9,10 @@
     "express": "3.1.0",
     "jade": "*",
     "less-middleware": "*",
+    "bcrypt":"*",
     "underscore" : "*",
-    "mongoskin" : "*"
+    "mongoskin" : "*",
+    "connect-mongo":"*",
+    "moment" :"*"
   }
 }

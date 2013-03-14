@@ -12,18 +12,14 @@ block content
       h1 #{post.title}
       .blogcontent !{post.html}
       .blogmeta
-        | published by
-        | #{post.user}
-        | &nbsp;
+        i.icon-user
+        | &nbsp; #{post.user} &nbsp;
         i.icon-calendar
-        | &nbsp; #{post.publish_time}
-      .tags
-        | tags &nbsp;
+        | &nbsp; #{moment(post.publish_time).format('LLLL')} (#{moment(post.publish_time).fromNow()})
+        | Tags: &nbsp;
         each tag in post.tags
-          a.label(href='/blog/tag/'+tag)
-            i.icon-tag
-            | &nbsp; #{tag}
-          | &nbsp;
+          a.label.label-info(href='/blog/tag/'+tag) #{tag}
+          span &nbsp;
 
 block rightnav
   ul.nav.nav-list

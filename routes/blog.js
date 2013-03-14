@@ -3,7 +3,6 @@
  * Blog related functions
  */
 
-
 exports.main_blog = function(req,res) {
   var navdata=req.navdata;
   navdata.navkey='home';

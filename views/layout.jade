@@ -9,6 +9,9 @@ html
       link(href='/css/style.css', rel='stylesheet', media='screen')
       script(src='http://code.jquery.com/jquery.js')
       script(src='/js/bootstrap.min.js')
+      script(src='/js/blog.js')
+      script
+
   body
     .container
       .row
@@ -24,6 +27,32 @@ html
                 each navitem in locals.navItems
                   li(class=(navitem.key===navkey) ? 'active':'foo')
                     a(href=navitem.link) #{navitem.name}
+                li.divider-vertical
+                if (locals.user)
+                  li.dropdown
+                    a.dropdown-toggle(href='#', data-toggle='dropdown')
+                      | Logged in #{user.username}
+                      strong.caret
+                    .dropdown-menu
+                      ul.nav
+                        li
+                          a(href='javascript:logout()') Logout
+                        if (admin===true)
+                          li
+                            a(href='/admin/list_posts') Admin Functions
+                else
+                  li.dropdown
+                    a.dropdown-toggle(href='#', data-toggle='dropdown')
+                      | Sign In
+                      strong.caret
+                    .dropdown-menu(style='padding: 15px; padding-bottom: 0px;')
+                      form(action='javascript:login()')
+                        input(type='hidden',name='current_url',value='')
+                        input#username(style='margin-bottom: 15px;', type='text', placeholder='Username', name='username')
+                        input#password(style='margin-bottom: 15px;', type='password', placeholder='Password', name='password')
+                        input#remember-me(style='float: left; margin-right: 10px;', type='checkbox', name='rememberme')
+                        label.string.optional(for='user_remember_me')  Remember me
+                        input#sign-in.btn.btn-primary.btn-block(type='submit', value='Sign In')
               form.navbar-search.pull-right
                 input.search-query(type='text',placeholder='Search')
       .row

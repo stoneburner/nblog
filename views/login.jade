@@ -1,0 +1,14 @@
+extends layout
+
+block content
+
+    h2 Please Login
+
+    .span2
+      form(action='javascript:login()')
+        input(type='hidden',name='current_url',value='')
+        input#username(style='margin-bottom: 15px;', type='text', placeholder='Username', name='username')
+        input#password(style='margin-bottom: 15px;', type='password', placeholder='Password', name='password')
+        input#remember-me(style='float: left; margin-right: 10px;', type='checkbox', name='rememberme')
+        label.string.optional(for='user_remember_me')  Remember me
+        input#sign-in.btn.btn-primary.btn-block(type='submit', value='Sign In')
