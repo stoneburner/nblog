@@ -101,6 +101,20 @@ exports.admin_list_files = function(req,res) {
   });
 };
 
+exports.admin_list_images = function(req,res) {
+  var navdata=req.navdata;
+  req.db.collection('fs.files').find({filename:/\.(jpg|png|gif)/i},{filename:1,length:1,uploadDate:1}).sort({filename:-1}).toArray(function (err, items) {
+    if (err) {
+      navdata.err=err;
+      res.json({success:false,error:err});
+    } else {
+      console.log(items);
+      res.render('imagelist',{images:items});
+    }
+  });
+};
+
+
 exports.new_post = function(req, res){
   var navdata=req.navdata;
   navdata.admin_nav=admin_nav;

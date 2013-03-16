@@ -1,0 +1,76 @@
+extends layout
+
+block append head
+  script(src='/js/wysihtml5-0.3.0.min.js')
+  script(src='/js/bootstrap-wysihtml5-0.0.2.min.js')
+  script(src='/js/admin.js')
+  link(href='/css/bootstrap-wysihtml5-0.0.2.css', rel='stylesheet', media='screen')
+
+  link(href='/css/editor.css', rel='stylesheet', media='screen')
+
+  script
+    $(document).ready(function() {
+      var editor=$('.textarea').wysihtml5({
+        stylesheets: ["/css/wysiwyg-color.css"]
+      });
+      $('.save_new_post').on('click',function() {
+        saveNewPost();
+      });
+    });
+
+block content
+  .editor
+    ul.editor-navbar
+      li.dropdown
+        a.btn.dropdown-toggle(data-toggle='dropdown', href="#")
+          i.icon-font
+          span &nbsp; Normal &nbsp;
+          b.caret
+        ul.dropdown-menu
+          li: a(href='javascript:foo()') Normal 1
+          li: a(href='javascript:foo()') Normal 2
+          li: a(href='javascript:foo()') Normal 3
+      li:.btn-group
+        a.btn(href="javascript:editcmd('bold')"): i.icon-bold
+        a.btn(href="javascript:editcmd('bold')"): i.icon-italic
+        a.btn(href="javascript:editcmd('bold')"): i.icon-underline
+      li:.btn-group
+        a.btn(href="javascript:editcmd('bold')"): i.icon-align-left
+        a.btn(href="javascript:editcmd('bold')"): i.icon-align-center
+        a.btn(href="javascript:editcmd('bold')"): i.icon-align-right
+      li:.btn-group
+        a.btn(href="javascript:editcmd('insert-image')"): i.icon-picture
+      li:.btn-group
+        a.btn(href="javascript:editcmd('bold')"): i.icon-link
+
+    #imagechooser.modal.hide.fade(tabindex="-1", role='dialog', aria-labelledby="imgChooserLabel", aria-hidden="true")
+      .modal-header
+        button.close(data-dismiss="modal",aria-hidden="true") x
+        h3#imgChooserLabel Choose Image
+      .modal-body#imageframe
+        p image link:
+        input#imagelink(type='text')
+        .imagedlg
+          #imageinfo
+          #imagelist
+      .modal-footer
+        button.btn(data-dismiss="modal", aria-hidden="true") Cancel
+        button.btn.btn-primary(onclick='javascript:insert_image()') Insert image
+
+  .foo(style='clear:both')
+    form
+      textarea.textarea(placeholder='Enter your text ...', autofocus='autofocus',style="width: 610px; height: 200px")
+    form.new_post
+      fielset
+        label(for='inputCategory') Category
+        select(id='inputCategory',name='categories')
+          each category in locals.categories
+            option #{category}
+        label(for='inputTitle') Title
+        input(id='inputTitle',type="text",name="title",placeholder="Enter Title...")
+        label(for='inputTags') Tags (comma seperated)
+        input(id='inputTags',type="text",name="tags",placeholder="Enter Tags...")
+    a.btn.btn-primary.save_new_post save
+
+
+

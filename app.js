@@ -65,6 +65,7 @@ app.get('/', [setNavData], blog.main_blog);
 app.get('/blog/cat/:category', [setNavData] ,blog.show_category);
 app.get('/blog', [setNavData] ,blog.main_blog);
 app.get('/files/:filename',[setNavData],blog.showfile);
+app.get('/image/:filename',[setNavData],blog.showfile);
 app.get('/admin',[setNavData,restrictToAdmin],blog_admin.admin_index);
 app.get('/admin/list_posts',[setNavData,restrictToAdmin],blog_admin.admin_list_posts);
 app.get('/admin/create_post',[setNavData,restrictToAdmin], blog_admin.new_post);
@@ -73,7 +74,15 @@ app.get('/admin/upload',[setNavData,restrictToAdmin],blog_admin.upload);
 app.post('/admin/doupload',[setNavData,restrictToAdmin],blog_admin.doupload);
 app.post('/admin/login',[setNavData],blog_admin.admin_dologin);
 app.post('/admin/logout',[setNavData],blog_admin.admin_logout);
+app.get('/admin/imagelist',[setNavData],blog_admin.admin_list_images);
 app.get('/login',[setNavData],blog_admin.show_login);
+
+app.get('/admin/editortest',[setNavData],function(req,res) {
+  res.render('editor',req.navdata);
+});
+
+
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
@@ -86,6 +95,7 @@ function setNavData(req,res,next) {
   req.db=db;
   req.mongo=mongo;
   req.navdata= _.clone(navdata);
+  req.navdata.navkey='none';
   req.navdata.moment=moment;
   req.navdata.user=req.session.user;
   req.navdata.admin=req.session.admin;

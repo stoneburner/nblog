@@ -1,0 +1,30 @@
+.editor-navbar {
+  margin: 0;
+  padding: 0;
+  display: block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333;
+}
+.editor-navbar li {
+  list-style: none;
+  margin: 0 5px 10px 0;
+  float: left;
+  display: list-item;
+}
+.editor #imageinfo {
+  width: 320px;
+  height: 240px;
+  float: left;
+  margin-right: 10px;
+  margin-top: 10px;
+  border: 1px solid #555;
+  border-radius: 5px;
+}
+.editor #imagelist {
+  margin: 10px;
+  float: left;
+  height: 240px;
+  overflow: scroll;
+}

@@ -26,3 +26,24 @@ function saveNewPost() {
 
   });
 }
+
+function editcmd(cmd) {
+  console.log(cmd);
+  if (cmd==='insert-image') {
+    $('#imagelist').load("/admin/imagelist");
+    $('#imagechooser').modal('show');
+  }
+}
+
+function preview_image(imagename,id) {
+ $('#imageinfo').attr('style','background:url("/image/'+imagename+'");background-size:cover');
+ $('#imagelist li').removeClass('active');
+ $('#'+id).addClass('active');
+ $('input#imagelink').val('/image/'+imagename);
+}
+
+function insert_image() {
+  var image=$('input#imagelink').val();
+  console.log(image);
+  $('#imagechooser').modal('hide');
+}
