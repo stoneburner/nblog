@@ -11,9 +11,8 @@ block append head
       var editor=$('.textarea').wysihtml5({
         stylesheets: ["/css/wysiwyg-color.css"]
       });
-      $('.save_new_post').on('click',function() {
-        saveNewPost();
-      });
+
+      $('.save_post').on('click',savePost());
     });
 
 block hnav
@@ -36,22 +35,8 @@ block content
           td #{post.category}
           td #{post.tags}
           td
-            a.btn.btn-mini(href='editpost?id=#{post._id}') Edit
-            a.btn.btn-mini.btn-danger(href='deletepost?id=#{post._id}') Delete
-  else
-    form
-      textarea.textarea(placeholder='Enter your text ...', autofocus='autofocus',style="width: 610px; height: 200px")
-    form.new_post
-      fielset
-        label(for='inputCategory') Category
-        select(id='inputCategory',name='categories')
-          each category in locals.categories
-            option #{category}
-        label(for='inputTitle') Title
-        input(id='inputTitle',type="text",name="title",placeholder="Enter Title...")
-        label(for='inputTags') Tags (comma seperated)
-        input(id='inputTags',type="text",name="tags",placeholder="Enter Tags...")
-    a.btn.btn-primary.save_new_post save
+            a.btn.btn-mini(href='edit_post/#{post._id}') Edit
+            a.btn.btn-mini.btn-danger(href='javascript:deletePost("#{post._id}")') Delete
 
 block rightnav
   ul.nav.nav-list

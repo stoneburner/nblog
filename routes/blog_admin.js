@@ -95,7 +95,6 @@ exports.admin_list_files = function(req,res) {
       res.render('error',navdata);
     } else {
       navdata.blogposts=items;
-      console.log(navdata);
       res.render('blog_admin',navdata);
     }
   });
@@ -121,7 +120,37 @@ exports.new_post = function(req, res){
   navdata.navkey='admin';
   navdata.blogposts=[];
   console.log(navdata);
-  res.render('blog_admin',navdata);
+  res.render('editor',navdata);
+};
+
+exports.edit_post = function(req, res){
+  var navdata=req.navdata;
+  var oid=req.db.ObjectID.createFromHexString(req.params.id)
+  req.db.collection('blogposts').findOne({_id:oid},function (err, blogpost) {
+    if (err) {
+      navdata.err=err;
+      res.render('error',navdata);
+    } else {
+      navdata.blogpost=blogpost;
+      navdata.admin_nav=admin_nav;
+      navdata.navkey='admin';
+      navdata.blogposts=[];
+      res.render('editor',navdata);
+    }
+  });
+};
+
+exports.delete_post = function(req, res){
+  var navdata=req.navdata;
+  var oid=req.db.ObjectID.createFromHexString(req.params.id)
+  req.db.collection('blogposts').remove({_id:oid},function (err, removed) {
+    if (err) {
+      navdata.err=err;
+      res.json({success:false,err:err});
+    } else {
+      res.json({success:true,deleted:removed});
+    }
+  });
 };
 
 exports.save_post = function(req,res) {
@@ -131,14 +160,38 @@ exports.save_post = function(req,res) {
     blogpost.user="admin";
     blogpost.publish_time=new Date();
     blogpost.tags=blogpost.tags.split(",");
-  }
+    req.db.collection('blogposts').save(blogpost,{strict:true},function(err){
+      if (err) {
+        console.log(err);
+        res.json({success:false,err:err});
+      } else {
+        res.send({success:true});
+      }
+    });
+  } else {
+    var oid=req.db.ObjectID.createFromHexString(blogpost.id);
+    req.db.collection('blogposts').findOne({_id:oid},function (err, oldpost) {
+      if (err) {
+        navdata.err=err;
+        res.json({success:false,err:err});
+      } else {
+        oldpost.title=blogpost.title;
+        oldpost.html=blogpost.html;
+        oldpost.tags=blogpost.tags;
+        oldpost.category=blogpost.category;
+        oldpost.edit_time=new Date();
+        console.log(oldpost);
+        req.db.collection('blogposts').save(oldpost,{strict:true},function(err){
+          if (err) {
+            console.log(err);
+            res.json({success:false,err:err});
+          }
+          res.send({success:true});
+        });
 
-  req.db.collection('blogposts').save(blogpost,{strict:true},function(err){
-    if (err) {
-      console.log(err);
-    }
-    res.send({success:true});
-  });
+      }
+    });
+  }
 };
 
 

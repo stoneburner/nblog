@@ -4,7 +4,6 @@
  */
 var settings=require('./settings');
 var express = require('express');
-//var routes = require('./routes');
 var  blog = require('./routes/blog');
 var  blog_admin = require('./routes/blog_admin');
 var  http = require('http');
@@ -16,24 +15,21 @@ var MongoStore = require('connect-mongo')(express);
 var app = express();
 
 console.log(settings);
-console.log(settings.db);
-console.log(settings.db.url);
 
 var db = mongo.db(settings.db.url);
 
-var navdata = {};
-
-  navdata.title="Stoneburners Blog",
-  navdata.subtitle="...interesting stuff (probably)",
-
-  navdata.navItems= [
+var navdata = {
+   title:"Stoneburners Blog",
+   subtitle:"...interesting stuff (probably)",
+   navItems: [
     {key:'home',name:'All Posts',link:'/'},
     {key:'electronics',name:'Electronics',link:'/blog/cat/electronics'},
     {key:'reprap',name:'3d Printer',link:'/blog/cat/reprap'},
-    {key:'misc',name:'Various',link:'/blog/cat/misc'},
-  ];
+    {key:'misc',name:'Various',link:'/blog/cat/misc'}
+  ],
+  categories:['electronics','reprap','misc']
+};
 
-  navdata.categories= ['electronics','reprap','misc'];
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -69,7 +65,9 @@ app.get('/image/:filename',[setNavData],blog.showfile);
 app.get('/admin',[setNavData,restrictToAdmin],blog_admin.admin_index);
 app.get('/admin/list_posts',[setNavData,restrictToAdmin],blog_admin.admin_list_posts);
 app.get('/admin/create_post',[setNavData,restrictToAdmin], blog_admin.new_post);
+app.get('/admin/edit_post/:id',[setNavData,restrictToAdmin], blog_admin.edit_post);
 app.post('/admin/save_post',[setNavData,restrictToAdmin],blog_admin.save_post);
+app.get('/admin/delete_post/:id',[setNavData,restrictToAdmin],blog_admin.delete_post);
 app.get('/admin/upload',[setNavData,restrictToAdmin],blog_admin.upload);
 app.post('/admin/doupload',[setNavData,restrictToAdmin],blog_admin.doupload);
 app.post('/admin/login',[setNavData],blog_admin.admin_dologin);

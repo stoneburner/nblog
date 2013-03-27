@@ -1,55 +1,45 @@
 extends layout
 
 block append head
-  script(src='/js/wysihtml5-0.3.0.min.js')
-  script(src='/js/bootstrap-wysihtml5-0.0.2.min.js')
+  script(src='/js/parser_rules/advanced.js')
+  script(src='/js/wysihtml5-0.3.0.js')
   script(src='/js/admin.js')
-  link(href='/css/bootstrap-wysihtml5-0.0.2.css', rel='stylesheet', media='screen')
-
   link(href='/css/editor.css', rel='stylesheet', media='screen')
-
-  script
-    $(document).ready(function() {
-      var editor=$('.textarea').wysihtml5({
-        stylesheets: ["/css/wysiwyg-color.css"]
-      });
-      $('.save_new_post').on('click',function() {
-        saveNewPost();
-      });
-    });
 
 block content
   .editor
-    ul.editor-navbar
+    ul.editor-navbar#toolbar
       li.dropdown
-        a.btn.dropdown-toggle(data-toggle='dropdown', href="#")
-          i.icon-font
-          span &nbsp; Normal &nbsp;
-          b.caret
-        ul.dropdown-menu
-          li: a(href='javascript:foo()') Normal 1
-          li: a(href='javascript:foo()') Normal 2
-          li: a(href='javascript:foo()') Normal 3
+        a.btn.editor_h1(data-wysihtml5-command="formatBlock",data-wysihtml5-command-value='h1') H1
+        a.btn.editor_h2(data-wysihtml5-command="formatBlock",data-wysihtml5-command-value='h2') H2
+        a.btn.editor_h3(data-wysihtml5-command="formatBlock",data-wysihtml5-command-value='h3') H3
       li:.btn-group
-        a.btn(href="javascript:editcmd('bold')"): i.icon-bold
-        a.btn(href="javascript:editcmd('bold')"): i.icon-italic
-        a.btn(href="javascript:editcmd('bold')"): i.icon-underline
+        a.btn(data-wysihtml5-command="bold",title="CTRL+B"): i.icon-bold
+        a.btn(data-wysihtml5-command="italic",title="CTRL+I"): i.icon-italic
+        a.btn(data-wysihtml5-command="underline",title="CTRL+U"): i.icon-underline
       li:.btn-group
-        a.btn(href="javascript:editcmd('bold')"): i.icon-align-left
-        a.btn(href="javascript:editcmd('bold')"): i.icon-align-center
-        a.btn(href="javascript:editcmd('bold')"): i.icon-align-right
+        a.btn(data-wysihtml5-command="justifyLeft"): i.icon-align-left
+        a.btn(data-wysihtml5-command="justifyCenter"): i.icon-align-center
+        a.btn(data-wysihtml5-command="justifyRight"): i.icon-align-right
       li:.btn-group
-        a.btn(href="javascript:editcmd('insert-image')"): i.icon-picture
+        a.btn(data-wysihtml5-command="insertUnorderedList"): i.icon-list-ul
+        a.btn(data-wysihtml5-command="insertOrderedList"): i.icon-list-ol
       li:.btn-group
-        a.btn(href="javascript:editcmd('bold')"): i.icon-link
+        a.btn(data-wysihtml5-command="createLink"): i.icon-link
+        a.btn(onclick='editor_cmd("insert-image")'): i.icon-picture
+      li:.btn-group
+        a.btn(data-wysihtml5-command="undo"): i.icon-undo
+        a.btn(data-wysihtml5-action="change_view"): i.icon-tag
 
     #imagechooser.modal.hide.fade(tabindex="-1", role='dialog', aria-labelledby="imgChooserLabel", aria-hidden="true")
       .modal-header
         button.close(data-dismiss="modal",aria-hidden="true") x
         h3#imgChooserLabel Choose Image
       .modal-body#imageframe
-        p image link:
-        input#imagelink(type='text')
+        label Image Url:
+          input#imagelink(type='text')
+        label Alt Text:
+          input#alttext(type='text')
         .imagedlg
           #imageinfo
           #imagelist
@@ -59,18 +49,30 @@ block content
 
   .foo(style='clear:both')
     form
-      textarea.textarea(placeholder='Enter your text ...', autofocus='autofocus',style="width: 610px; height: 200px")
-    form.new_post
+      textarea#editor(placeholder='Enter your text ...', autofocus='autofocus',style="width: 610px; height: 200px")
+        if (locals.blogpost)
+          !{blogpost.html}
+
+  form.post_meta
       fielset
+        if (locals.blogpost)
+          input(type="hidden",id="post_id",value='#{blogpost._id}')
         label(for='inputCategory') Category
         select(id='inputCategory',name='categories')
           each category in locals.categories
-            option #{category}
+            if (locals.blogpost && blogpost.category === category)
+              option(selected='selected') #{category}
+            else
+              option #{category}
         label(for='inputTitle') Title
-        input(id='inputTitle',type="text",name="title",placeholder="Enter Title...")
+        if (locals.blogpost)
+          input(id='inputTitle',type="text",name="title",placeholder="Enter Title...",value="#{blogpost.title}")
+        else
+          input(id='inputTitle',type="text",name="title",placeholder="Enter Title...")
         label(for='inputTags') Tags (comma seperated)
-        input(id='inputTags',type="text",name="tags",placeholder="Enter Tags...")
-    a.btn.btn-primary.save_new_post save
-
-
+        if (locals.blogpost)
+          input(id='inputTags',type="text",name="tags",placeholder="Enter Tags...",value="#{blogpost.tags}")
+        else
+          input(id='inputTags',type="text",name="tags",placeholder="Enter Tags...")
+    a.btn.btn-primary#save_post save
 
