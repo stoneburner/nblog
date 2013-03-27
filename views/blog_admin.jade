@@ -1,19 +1,7 @@
 extends layout
 
 block append head
-  script(src='/js/wysihtml5-0.3.0.min.js')
-  script(src='/js/bootstrap-wysihtml5-0.0.2.min.js')
   script(src='/js/admin.js')
-  link(href='/css/bootstrap-wysihtml5-0.0.2.css', rel='stylesheet', media='screen')
-
-  script
-    $(document).ready(function() {
-      var editor=$('.textarea').wysihtml5({
-        stylesheets: ["/css/wysiwyg-color.css"]
-      });
-
-      $('.save_post').on('click',savePost());
-    });
 
 block hnav
   li
@@ -22,6 +10,11 @@ block hnav
     a(href='#') Home
 
 block content
+  .alert.alert-error.alert-block.hide
+    .alertmsg
+      i.icon-warning-sign
+      strong &nbsp;Warning&nbsp;
+      span.error error
   if locals.blogposts
     table.table.table-striped.bloglist
       tr

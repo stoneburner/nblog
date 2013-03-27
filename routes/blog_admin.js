@@ -177,6 +177,7 @@ exports.save_post = function(req,res) {
       } else {
         oldpost.title=blogpost.title;
         oldpost.html=blogpost.html;
+        blogpost.tags=blogpost.tags.split(",");
         oldpost.tags=blogpost.tags;
         oldpost.category=blogpost.category;
         oldpost.edit_time=new Date();

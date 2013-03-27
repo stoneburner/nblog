@@ -15,7 +15,7 @@ function savePost() {
       window.location="/admin/list_posts";
     },
     error: function() {
-      alert("FAIL!(BOOOOOH)");
+      showError("Could not save blogpost!");
     }
   });
 }
@@ -25,14 +25,17 @@ function deletePost(id) {
     url:"/admin/delete_post/"+id,
     type: "get",
     success: function(result) {
-      console.log(result);
       window.location="/admin/list_posts";
     },
     error: function(result) {
-      console.log(result);
-      alert("FAIL!(BOOOOOH)");
+      showError("Could not delete blogpost!");
     }
   });
+}
+
+function showError(errmsg) {
+  $('span.error').html(errmsg);
+  $('.alert').show();
 }
 
 function editor_cmd(cmd) {
@@ -55,15 +58,9 @@ function insert_image() {
   $('#imagechooser').modal('hide');
 }
 
-var editorInstance;
-$(document).ready(function() {
-  editorInstance = new wysihtml5.Editor("editor", {
-    toolbar:        "toolbar",
-    parserRules:    wysihtml5ParserRules,
-    useLineBreaks:  false
-  });
-  $('#imagechooser').data('editor',editorInstance);
-  $('#save_post').on('click',savePost);
-});
-
-
+window.onerror = function (message, url, lineNo) {
+  showError( message +
+    '\nUrl: ' + url +
+    '\nLine Number: ' + lineNo);
+  return true;
+};

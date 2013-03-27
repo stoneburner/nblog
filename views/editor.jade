@@ -75,4 +75,13 @@ block content
         else
           input(id='inputTags',type="text",name="tags",placeholder="Enter Tags...")
     a.btn.btn-primary#save_post save
+  script
+    var editorInstance;
+    editorInstance = new wysihtml5.Editor("editor", {
+      toolbar:        "toolbar",
+      parserRules:    wysihtml5ParserRules,
+      useLineBreaks:  false
+    });
+    $('#imagechooser').data('editor',editorInstance);
+    $('#save_post').on('click',savePost);
 

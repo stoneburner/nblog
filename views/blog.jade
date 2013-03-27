@@ -15,7 +15,7 @@ block content
         i.icon-user
         | &nbsp; #{post.user} &nbsp;
         i.icon-calendar
-        | &nbsp; #{moment(post.publish_time).format('LLLL')} (#{moment(post.publish_time).fromNow()})
+        | &nbsp; #{moment(post.publish_time).format('LLL')} (#{moment(post.publish_time).fromNow()})
         | Tags: &nbsp;
         each tag in post.tags
           a.label.label-info(href='/blog/tag/'+tag) #{tag}
