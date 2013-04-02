@@ -16,8 +16,8 @@
 extends layout
 
 block append head
-  script(src='/js/dropzone.js')
   script(src='/js/admin.js')
+  script(src='/js/dropzone.js')
   link(href='/css/basic.css', rel='stylesheet', media='screen')
   link(href='/css/dropzone.css', rel='stylesheet', media='screen')
 
@@ -29,7 +29,7 @@ block hnav
     a(href='#') Home
 
 block content
-    form.dropzone(id='dropzone', action="/admin/doupload")
+    form.dropzone(id='mydropzone', action="/admin/doupload")
     //--  input(type='file',name='file')
 
 block rightnav

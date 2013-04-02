@@ -84,6 +84,11 @@ block content
           input(id='inputTitle',type="text",name="title",placeholder="Enter Title...",value="#{blogpost.title}")
         else
           input(id='inputTitle',type="text",name="title",placeholder="Enter Title...")
+        label(for='inputTitle') Nav Slug
+        if (locals.blogpost)
+          input(id='inputSlug',type="text",name="title",placeholder="Enter link namee...",value="#{blogpost.slug}")
+        else
+          input(id='inputTitle',type="text",name="title",placeholder="Enter link name...")
         label(for='inputTags') Tags (comma seperated)
         if (locals.blogpost)
           input(id='inputTags',type="text",name="tags",placeholder="Enter Tags...",value="#{blogpost.tags}")

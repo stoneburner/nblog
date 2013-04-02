@@ -88,6 +88,7 @@ app.post('/admin/doupload',[setNavData,restrictToAdmin],blog_admin.doupload);
 app.post('/admin/login',[setNavData],blog_admin.admin_dologin);
 app.post('/admin/logout',[setNavData],blog_admin.admin_logout);
 app.get('/admin/imagelist',[setNavData],blog_admin.admin_list_images);
+app.get('/admin/check_navslug/:title',[setNavData,restrictToAdmin],blog_admin.checkUniqueNavslug);
 app.get('/login',[setNavData],blog_admin.show_login);
 
 app.get('/admin/editortest',[setNavData],function(req,res) {

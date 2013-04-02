@@ -20,6 +20,7 @@
 
 var fs=require('fs');
 var bcrypt=require('bcrypt');
+var S =require("string");
 
 var admin_nav=[
   {key:'list',name:'List Posts',link:'/admin/list_posts'},
@@ -230,5 +231,20 @@ exports.doupload = function(req,res) {
       readStream.pipe(gs);
       res.send("ok");
     });
+  });
+};
+
+
+exports.checkUniqueNavslug = function(req,res) {
+  var title=req.params.title;
+  var slug=S(title).slugify().s;
+  req.db.collection('blogposts').findOne({slug:slug},function(err,result) {
+    if (err) {
+      res.json({success:false,error:err});
+    } else if (result) {
+      res.json({success:true,unique:false,slug:slug});
+    } else {
+      res.json({success:true,unique:true,slug:slug,result:result});
+    }
   });
 };

@@ -1,3 +1,4 @@
+/* The MIT License */
 .dropzone,
 .dropzone *,
 .dropzone-previews,
@@ -41,7 +42,7 @@
   margin: 17px;
   vertical-align: top;
   border: 1px solid #acacac;
-  padding: 6px 6px 28px 6px;
+  padding: 6px 6px 6px 6px;
 }
 .dropzone .preview .details,
 .dropzone-previews .preview .details {
@@ -50,6 +51,7 @@
   position: relative;
   background: #ebebeb;
   padding: 5px;
+  margin-bottom: 22px;
 }
 .dropzone .preview .details .filename,
 .dropzone-previews .preview .details .filename {
@@ -309,7 +311,7 @@
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
   .dropzone .preview .progress .upload,
   .dropzone-previews .preview .progress .upload {
-    background-image: url("/img/spritemap@2x.png");
+    background-image: url("/img/dz_spritemap@2x.png");
     -webkit-background-size: 428px 406px;
     -moz-background-size: 428px 406px;
     background-size: 428px 406px;
